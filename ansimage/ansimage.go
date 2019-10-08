@@ -498,12 +498,14 @@ func createANSImage(img image.Image, bg color.Color, dm DitheringMode) (*ANSImag
 						px := BlockSizeX*x + dx
 
 						pixel := rgbaOut.At(px, py)
-						_, _, v := colorful.MakeColor(pixel).Hsv()
-						color := colorful.MakeColor(pixel)
-						sumR += color.R
-						sumG += color.G
-						sumB += color.B
-						sumBri += v
+						color, ok := colorful.MakeColor(pixel)
+						if ok {
+							sumR += color.R
+							sumG += color.G
+							sumB += color.B
+							_, _, v := color.Hsv()
+							sumBri += v
+						}
 					}
 				}
 
